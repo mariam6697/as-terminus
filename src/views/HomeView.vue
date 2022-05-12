@@ -1,6 +1,11 @@
 <template>
-  <hello-world />
+  <v-container>
+    <div class="ma-2 pa-2">
+      <hello-world />
+    </div>
+  </v-container>
 </template>
+
 
 <script lang="ts">
 import Vue from "vue";
