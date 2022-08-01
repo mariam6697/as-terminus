@@ -2,32 +2,14 @@
   <v-app :style="`font-size: ${fontSize}px; font-family: ${fontFamily}`">
     <v-app-bar app color="primary" dark>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+      <div class="d-flex align-center">Proyectos Aprendizaje + Servicio</div>
 
       <v-spacer></v-spacer>
 
       <v-menu bottom left :close-on-content-click="false">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-dots-vertical</v-icon>
+            <v-icon>mdi-human</v-icon>
           </v-btn>
         </template>
 
@@ -35,7 +17,17 @@
           <!-- Menu content start -->
           <v-col cols="12">
             <v-subheader class="pa-0">Tamaño fuente</v-subheader>
-            <v-slider step="2" max="28" min="12" v-model="fontSize"></v-slider>
+            <v-slider
+              step="2"
+              max="24"
+              min="12"
+              v-model="fontSize"
+              :thumb-label="true"
+            >
+              <template v-slot:thumb-label="{ value }">
+                {{ value }}px
+              </template></v-slider
+            >
             <v-select
               :items="fonts"
               v-model="fontFamily"
@@ -91,13 +83,13 @@
             class="mx-4 white--text"
             icon
           >
-            <v-icon size="24px">
+            <v-icon size="1.5rem">
               {{ icon }}
             </v-icon>
           </v-btn>
         </v-card-text>
 
-        <v-card-text class="white--text pt-0">
+        <v-card-text class="white--text pt-0" style="font-size: 0.75em">
           Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
           Mauris cursus commodo interdum. Praesent ut risus eget metus luctus
           accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim
@@ -110,8 +102,8 @@
 
         <v-divider></v-divider>
 
-        <v-card-text class="white--text">
-          {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+        <v-card-text class="white--text" style="font-size: 1em">
+          2022 — <strong>UTEM</strong>
         </v-card-text>
       </v-card>
     </v-footer>
@@ -130,16 +122,16 @@ export default Vue.extend({
     group: null,
     fontSize: 16,
     darkMode: true,
-    fontFamily: "Roboto",
-    fonts: ["Helvetica", "Roboto", "Times New Roman"],
+    fontFamily: "Raleway",
+    fonts: ["Helvetica", "Raleway", "Roboto", "Times New Roman"],
     items: [
       {
-        title: "Home",
+        title: "Inicio",
         icon: "mdi-home",
         link: "/",
       },
       {
-        title: "About",
+        title: "Acerca de",
         icon: "mdi-account",
         link: "/about",
       },
@@ -150,6 +142,7 @@ export default Vue.extend({
   beforeMount() {
     this.initDarkMode();
     this.initFontFamily();
+    this.initFontSize();
   },
   watch: {
     darkMode() {
@@ -158,6 +151,9 @@ export default Vue.extend({
     },
     fontFamily() {
       LocalStorageUtils.write("fontFamily", this.fontFamily);
+    },
+    fontSize() {
+      LocalStorageUtils.write("fontSize", this.fontSize);
     },
   },
   methods: {
@@ -177,11 +173,22 @@ export default Vue.extend({
         : "Roboto";
       this.fontFamily = fontFamily;
     },
+    initFontSize() {
+      const fontSize: number = LocalStorageUtils.read("fontSize")
+        ? LocalStorageUtils.read("fontSize")
+        : 16;
+      this.fontSize = fontSize;
+    },
   },
 });
 </script>
 
 <style lang="scss">
+.v-main__wrap {
+  background-image: url("../src/assets/mountain.svg");
+  background-size: cover;
+  background-attachment: fixed;
+}
 .row {
   margin: unset !important;
 }
