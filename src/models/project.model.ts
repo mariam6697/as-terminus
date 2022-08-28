@@ -2,7 +2,7 @@ import Category from "./category.model";
 import CustomFile from "./custom-file.model";
 
 export default interface Project {
-  _id?: string;
+  id?: string;
   name: string;
   description?: string;
   shortDescription?: string;

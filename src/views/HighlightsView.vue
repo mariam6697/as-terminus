@@ -61,7 +61,9 @@ export default Vue.extend({
       this.loading = true;
       const res = await SeldonService.getProjects(1, 5, { highlighted: true });
       const projects: Project[] = res.projects;
-      this.projects = projects.map((project: Project) => {
+      this.projects = projects.map((project: any) => {
+        project.id = project.nanoId;
+        delete project.nanoId;
         if (project.mainImage) {
           const fileString = FileUtils.fromBase64ToFile(project.mainImage);
           project.mainImage.fileString = fileString;

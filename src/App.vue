@@ -9,7 +9,7 @@
       <v-menu bottom left :close-on-content-click="false">
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
-            <v-icon>mdi-human</v-icon>
+            <v-icon>mdi-cog</v-icon>
           </v-btn>
         </template>
 
