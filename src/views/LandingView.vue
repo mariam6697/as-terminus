@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <highlights-view></highlights-view>
+    <highlights-carousel></highlights-carousel>
     <projects-list></projects-list>
   </v-container>
 </template>
@@ -8,13 +8,13 @@
 
 <script lang="ts">
 import Vue from "vue";
-import HighlightsView from "./HighlightsView.vue";
-import ProjectsList from "./ProjectsList.vue";
+import HighlightsCarousel from "../components/HighlightsCarousel.vue";
+import ProjectsList from "../components/ProjectsList.vue";
 
 export default Vue.extend({
   name: "LandingView",
 
-  components: { HighlightsView, ProjectsList },
+  components: { HighlightsCarousel, ProjectsList },
   data() {
     return {};
   },

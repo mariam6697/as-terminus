@@ -11,9 +11,14 @@ const routes: Array<RouteConfig> = [
     component: LandingView,
   },
   {
-    path: "/about",
+    path: "/acerca-de",
     name: "about",
     component: () => import("../views/AboutView.vue"),
+  },
+  {
+    path: "/proyectos/:projectId",
+    name: "projects",
+    component: () => import("../views/ProjectsDetailsView.vue"),
   },
 ];
 

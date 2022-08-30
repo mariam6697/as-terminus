@@ -16,7 +16,9 @@
     ></v-card-text>
 
     <v-card-actions>
-      <v-btn color="primary" text> Ver más </v-btn>
+      <v-btn color="primary" text :to="`/proyectos/${project.id}`">
+        Ver más
+      </v-btn>
       <v-spacer></v-spacer>
 
       <v-btn icon @click="show = !show">
@@ -56,5 +58,6 @@ export default Vue.extend({
   margin: 10px !important;
   max-width: 340px;
   height: 100%;
+  display: inline-block;
 }
 </style>

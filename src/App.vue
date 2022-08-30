@@ -2,7 +2,9 @@
   <v-app :style="`font-size: ${fontSize}px; font-family: ${fontFamily}`">
     <v-app-bar app color="primary" dark>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-      <div class="d-flex align-center">Proyectos Aprendizaje + Servicio</div>
+      <div class="d-flex align-center">
+        <a style="color: white" href="/">Proyectos Aprendizaje + Servicio</a>
+      </div>
 
       <v-spacer></v-spacer>
 
@@ -116,7 +118,9 @@ import LocalStorageUtils from "./utils/local-storage.utils";
 
 export default Vue.extend({
   name: "App",
-
+  created() {
+    document.title = "Proyectos Aprendizaje + Servicio";
+  },
   data: () => ({
     drawer: false,
     group: null,
@@ -133,7 +137,7 @@ export default Vue.extend({
       {
         title: "Acerca de",
         icon: "mdi-account",
-        link: "/about",
+        link: "/acerca-de",
       },
     ],
     icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
@@ -185,9 +189,8 @@ export default Vue.extend({
 
 <style lang="scss">
 .v-main__wrap {
-  background-image: url("../src/assets/mountain.svg");
-  background-size: cover;
-  background-attachment: fixed;
+  background-image: url("../src/assets/jigsaw.svg");
+  background-repeat: repeat;
 }
 .row {
   margin: unset !important;
@@ -196,5 +199,50 @@ export default Vue.extend({
 .v-slider--horizontal {
   margin-left: 0px !important;
   margin-right: 0px !important;
+}
+
+.v-navigation-drawer {
+  position: fixed !important;
+  height: 100vh !important;
+
+  .v-navigation-drawer__content {
+    height: 100vh !important;
+  }
+}
+
+.v-overlay__scrim {
+  position: fixed !important;
+  height: 100vh !important;
+}
+
+.loader-container {
+  width: 100%;
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1200px !important;
+}
+
+.v-app-bar-title__content {
+  width: 100%;
+}
+
+.v-card__title {
+  font-size: 1.25em !important;
+}
+
+.v-breadcrumbs {
+  li {
+    font-size: 1em !important;
+    font-weight: 500 !important;
+  }
+}
+
+a {
+  text-decoration: none;
 }
 </style>

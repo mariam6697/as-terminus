@@ -9,12 +9,14 @@
         indeterminate
       ></v-progress-circular>
     </div>
-    <div class="project-card-container" v-if="!loading && projects.length > 0">
-      <project-card
-        v-for="(project, i) in projects"
-        :key="i"
-        :project="project"
-      ></project-card>
+    <div class="project-list-container" v-if="!loading && projects.length > 0">
+      <v-flex class="project-card-container">
+        <project-card
+          v-for="(project, i) in projects"
+          :key="i"
+          :project="project"
+        ></project-card>
+      </v-flex>
     </div>
   </div>
 </template>
@@ -57,7 +59,6 @@ export default Vue.extend({
         }
         return project;
       });
-      console.log("this.projects", this.projects);
       this.loading = false;
     },
   },
@@ -65,10 +66,14 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.project-card-container {
-  display: flex;
-  flex-flow: row wrap;
-  align-content: space-between;
-  justify-content: space-around;
+.project-list-container {
+  margin: auto;
+  .project-card-container {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    margin-left: -10px;
+    margin-right: -10px;
+  }
 }
 </style>

@@ -77,13 +77,6 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
-.loader-container {
-  width: 100%;
-  height: 50vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .as-carousel-container {
   width: 100%;
   height: 100%;
