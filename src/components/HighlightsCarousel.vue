@@ -1,13 +1,13 @@
 <template>
   <div class="ma-2 pa-2">
-    <div class="loader-container" v-if="loading">
-      <v-progress-circular
-        :size="70"
-        :width="7"
-        color="primary"
-        indeterminate
-      ></v-progress-circular>
-    </div>
+    <v-sheet
+      :color="`grey ${isDark ? 'darken-2' : 'lighten-4'}`"
+      class="pa-0"
+      style="height: 500px"
+      v-if="loading"
+    >
+      <v-skeleton-loader class="mx-auto" type="image"></v-skeleton-loader>
+    </v-sheet>
     <v-carousel v-if="!loading && projects.length > 0" hide-delimiters cycle>
       <v-carousel-item
         v-for="(project, i) in projects"
@@ -55,6 +55,11 @@ export default Vue.extend({
   },
   mounted() {
     this.getHightlightedProjects();
+  },
+  computed: {
+    isDark(): boolean {
+      return this.$vuetify.theme.dark;
+    },
   },
   methods: {
     async getHightlightedProjects() {

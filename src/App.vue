@@ -245,4 +245,16 @@ export default Vue.extend({
 a {
   text-decoration: none;
 }
+
+.v-skeleton-loader__image {
+  height: 500px !important;
+}
+
+.v-skeleton-loader__card {
+  width: 340px !important;
+  .v-skeleton-loader__image {
+    height: 200px !important;
+    width: 340px !important;
+  }
+}
 </style>
