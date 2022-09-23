@@ -29,8 +29,11 @@
         </v-col>
         <v-row class="main-info">
           <v-col cols="6"
-            ><div v-if="project.description" v-html="parsedDesc()"></div
-          ></v-col>
+            ><div
+              v-if="project.description"
+              v-dompurify-html="parsedDesc()"
+            ></div>
+          </v-col>
           <v-col cols="6"
             ><v-img
               width="100%"
@@ -75,6 +78,7 @@ import Project from "@/models/project.model";
 import Vue from "vue";
 import "viewerjs/dist/viewer.css";
 import VueViewer from "v-viewer";
+import VueDOMPurifyHTML from "vue-dompurify-html";
 import * as default2 from "../assets/default2.jpeg";
 import SeldonService from "../services/seldon.service";
 import MarkdownIt from "markdown-it";
@@ -83,6 +87,7 @@ import CategoriesChips from "@/components/CategoriesChips.vue";
 import FileUtils from "@/utils/file.utils";
 
 Vue.use(VueViewer);
+Vue.use(VueDOMPurifyHTML);
 export default Vue.extend({
   name: "ProjectsDetailsView",
   created() {
