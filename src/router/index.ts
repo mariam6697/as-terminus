@@ -20,6 +20,11 @@ const routes: Array<RouteConfig> = [
     name: "projects",
     component: () => import("../views/ProjectsDetailsView.vue"),
   },
+  {
+    path: "*",
+    name: "not found",
+    component: () => import("../views/NotFound.vue"),
+  },
 ];
 
 const router = new VueRouter({

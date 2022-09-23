@@ -7,10 +7,6 @@
 
     <v-card-title> {{ project.name }} </v-card-title>
 
-    <!-- <v-card-subtitle>
-      {{ project.year }} {{ project.semester }}
-    </v-card-subtitle> -->
-
     <v-card-text
       ><categories-chips :categories="project.categories"></categories-chips
     ></v-card-text>
@@ -21,7 +17,7 @@
       </v-btn>
       <v-spacer></v-spacer>
 
-      <v-btn icon @click="show = !show">
+      <v-btn icon @click="show = !show" :disabled="!project.shortDescription">
         <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
       </v-btn>
     </v-card-actions>
