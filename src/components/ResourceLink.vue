@@ -9,7 +9,7 @@
       <v-list-item-subtitle>{{ link.description }}</v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
-      <v-btn :href="link.url" target="_blank" icon>
+      <v-btn :href="sanitizedLink(link.url)" target="_blank" icon>
         <v-icon color="grey lighten-1">mdi-open-in-new</v-icon>
       </v-btn>
     </v-list-item-action>
@@ -19,12 +19,15 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { sanitizeUrl } from "@braintree/sanitize-url";
 
 export default Vue.extend({
   name: "ResourceLink",
   props: ["link"],
-  data: () => ({
-
-  }),
+  methods: {
+    sanitizedLink(url: string): string {
+      return sanitizeUrl(url);
+    }
+  }
 });
 </script>
