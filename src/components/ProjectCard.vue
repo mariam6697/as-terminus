@@ -1,15 +1,12 @@
 <template>
   <v-card class="mx-auto project-card">
-    <v-img
-      :src="project.mainImage ? project.mainImage.fileString : default2.default"
-      height="200px"
-    ></v-img>
+    <v-img :src="project.mainImage ? project.mainImage.fileString : default2.default" height="200px"></v-img>
 
     <v-card-title> {{ project.name }} </v-card-title>
 
-    <v-card-text
-      ><categories-chips :categories="project.categories"></categories-chips
-    ></v-card-text>
+    <v-card-text>
+      <categories-chips :categories="project.categories"></categories-chips>
+    </v-card-text>
 
     <v-card-actions>
       <v-btn color="primary" text :to="`/proyectos/${project.id}`">
