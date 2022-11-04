@@ -95,6 +95,7 @@ import ResourceLink, { ResourceLinkList } from "@/models/resource-link.model";
 
 Vue.use(VueViewer);
 Vue.use(VueDOMPurifyHTML);
+
 export default Vue.extend({
   name: "ProjectsDetailsView",
   created() {
