@@ -1,4 +1,5 @@
 import Project from "@/models/project.model";
+import { ResourceLinkList } from "@/models/resource-link.model";
 import axios from "axios";
 
 const seldonUrl = process.env.VUE_APP_SELDON_URL;
@@ -24,5 +25,20 @@ export default class SeldonService {
     delete response.data.data.nanoId;
     const project: Project = { ...response.data.data };
     return project;
+  }
+
+  static async getProjectLinks(
+    id: string,
+    page: number,
+    limit: number
+  ): Promise<ResourceLinkList> {
+    const url = `${seldonUrl}/core/resources-links/${id}?page=${page}&limit=${limit}`;
+    const response: any = await axios.get(url);
+    return {
+      page: page,
+      limit: limit,
+      totalItems: response.data.data.totalItems,
+      resourceLinks: response.data.data.resourceLinks,
+    };
   }
 }

@@ -11,14 +11,11 @@
           <v-skeleton-loader type="heading"></v-skeleton-loader>
         </v-col>
         <v-row class="main-info">
-          <v-col cols="6"
-            ><v-skeleton-loader type="text@10"></v-skeleton-loader>
+          <v-col cols="6">
+            <v-skeleton-loader type="text@10"></v-skeleton-loader>
           </v-col>
-          <v-col cols="6"
-            ><v-skeleton-loader
-              style="height: 300px"
-              type="image"
-            ></v-skeleton-loader>
+          <v-col cols="6">
+            <v-skeleton-loader style="height: 300px" type="image"></v-skeleton-loader>
           </v-col>
         </v-row>
       </div>
@@ -28,44 +25,52 @@
           <categories-chips :categories="project.categories"></categories-chips>
         </v-col>
         <v-row class="main-info">
-          <v-col cols="6"
-            ><div
-              v-if="project.description"
-              v-dompurify-html="parsedDesc()"
-            ></div>
+          <v-col cols="6">
+            <div v-if="project.description" v-dompurify-html="parsedDesc()"></div>
           </v-col>
-          <v-col cols="6"
-            ><v-img
-              width="100%"
-              :src="
-                project.mainImage
-                  ? project.mainImage.fileString
-                  : default2.default
-              "
-            ></v-img>
+          <v-col cols="6">
+            <v-img width="100%" :src="
+              project.mainImage
+                ? project.mainImage.fileString
+                : default2.default
+            "></v-img>
           </v-col>
         </v-row>
 
         <v-col v-if="project.extraImages && project.extraImages.length > 0">
           <h1>Imágenes</h1>
-          <v-row style="cursor: pointer" @click="openGallery()">
-            <v-col
-              v-for="n in project.extraImages.length < 3
-                ? project.extraImages.length
-                : 3"
-              :key="n"
-              class="d-flex child-flex"
-              cols="4"
-            >
-              <v-img
-                v-if="project.extraImages[n - 1]"
-                :src="project.extraImages[n - 1].fileString"
-                aspect-ratio="1"
-                class="grey lighten-2"
-              >
+          <v-row>
+            <v-col style="cursor: pointer" @click="openGallery()" v-for="n in project.extraImages.length < 3
+            ? project.extraImages.length
+            : 3" :key="n" class="d-flex child-flex" cols="4">
+              <v-img v-if="project.extraImages[n - 1]" :src="project.extraImages[n - 1].fileString" aspect-ratio="1"
+                class="grey lighten-2">
               </v-img>
             </v-col>
           </v-row>
+        </v-col>
+
+        <v-col v-if="!loading">
+          <h1>Enlaces externos</h1>
+          <div v-if="!loadingLinks">
+            <v-card v-if="links.length > 0" class="mx-auto" tile>
+              <div v-for="(link, index) in links" :key="link._id">
+                <resource-link-component :link="link"></resource-link-component>
+                <v-divider v-if="index + 1 != links.length" inset></v-divider>
+              </div>
+            </v-card>
+            <v-card v-else>
+              <v-card-text>No hay enlaces para este proyecto</v-card-text>
+            </v-card>
+          </div>
+          <div v-else>
+            <v-col>
+              <v-skeleton-loader style="width: 100% !important" type="heading"></v-skeleton-loader>
+            </v-col>
+            <v-col>
+              <v-skeleton-loader type="text"></v-skeleton-loader>
+            </v-col>
+          </div>
         </v-col>
         <v-row> </v-row>
       </div>
@@ -84,7 +89,9 @@ import SeldonService from "../services/seldon.service";
 import MarkdownIt from "markdown-it";
 import markdownitEmoji from "markdown-it-emoji";
 import CategoriesChips from "@/components/CategoriesChips.vue";
+import ResourceLinkComponent from "@/components/ResourceLink.vue";
 import FileUtils from "@/utils/file.utils";
+import ResourceLink, { ResourceLinkList } from "@/models/resource-link.model";
 
 Vue.use(VueViewer);
 Vue.use(VueDOMPurifyHTML);
@@ -93,12 +100,14 @@ export default Vue.extend({
   created() {
     document.title = "Detalles | Proyectos Aprendizaje + Servicio";
   },
-  components: { CategoriesChips },
+  components: { CategoriesChips, ResourceLinkComponent },
   data() {
     return {
       default2,
       project: {} as Project,
       loading: true,
+      links: [] as ResourceLink[],
+      loadingLinks: true,
       error: false,
       errorMessage: "",
       items: [
@@ -122,12 +131,12 @@ export default Vue.extend({
     }
   },
   methods: {
-    parsedDesc() {
+    parsedDesc(): string {
       const md = new MarkdownIt();
       md.use(markdownitEmoji);
       return md.render(this.project.description!);
     },
-    async getProjectData(id: string) {
+    async getProjectData(id: string): Promise<void> {
       try {
         this.loading = true;
         const project: Project = await SeldonService.getProjectById(id);
@@ -144,11 +153,9 @@ export default Vue.extend({
           }
 
           project.extraImages = extraImages;
-          console.log(
-            project.extraImages.length < 3 ? project.extraImages.length : 3
-          );
         }
         this.project = project;
+
         document.title = `${this.project.name} | Proyectos Aprendizaje + Servicio`;
         this.items[1].text = this.project.name;
       } catch (error: any) {
@@ -156,10 +163,22 @@ export default Vue.extend({
         this.$router.push({ path: "/no-encontrado" });
       } finally {
         this.loading = false;
+        this.getProjectLinks(id);
       }
     },
 
-    openGallery() {
+    async getProjectLinks(id: string): Promise<void> {
+      try {
+        const links: ResourceLinkList = await SeldonService.getProjectLinks(id, 1, 999);
+        this.links = links.resourceLinks;
+      } catch (error: any) {
+        // handle error
+      } finally {
+        this.loadingLinks = false;
+      }
+    },
+
+    openGallery(): void {
       if (this.project.extraImages) {
         let images: any[] = this.project.extraImages.map((image) => {
           return image.fileString;
