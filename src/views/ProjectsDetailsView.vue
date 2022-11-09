@@ -15,7 +15,10 @@
             <v-skeleton-loader type="text@10"></v-skeleton-loader>
           </v-col>
           <v-col cols="6">
-            <v-skeleton-loader style="height: 300px" type="image"></v-skeleton-loader>
+            <v-skeleton-loader
+              style="height: 300px"
+              type="image"
+            ></v-skeleton-loader>
           </v-col>
         </v-row>
       </div>
@@ -26,28 +29,73 @@
         </v-col>
         <v-row class="main-info">
           <v-col cols="6">
-            <div v-if="project.description" v-dompurify-html="parsedDesc()"></div>
+            <div
+              v-if="project.description"
+              v-dompurify-html="parsedDesc()"
+            ></div>
           </v-col>
           <v-col cols="6">
-            <v-img width="100%" :src="
-              project.mainImage
-                ? project.mainImage.fileString
-                : default2.default
-            "></v-img>
+            <v-img
+              width="100%"
+              :src="
+                project.mainImage
+                  ? project.mainImage.fileString
+                  : default2.default
+              "
+            ></v-img>
           </v-col>
         </v-row>
 
         <v-col v-if="project.extraImages && project.extraImages.length > 0">
           <h1>Imágenes</h1>
           <v-row>
-            <v-col style="cursor: pointer" @click="openGallery()" v-for="n in project.extraImages.length < 3
-            ? project.extraImages.length
-            : 3" :key="n" class="d-flex child-flex" cols="4">
-              <v-img v-if="project.extraImages[n - 1]" :src="project.extraImages[n - 1].fileString" aspect-ratio="1"
-                class="grey lighten-2">
+            <v-col
+              style="cursor: pointer"
+              @click="openGallery()"
+              v-for="n in project.extraImages.length < 3
+                ? project.extraImages.length
+                : 3"
+              :key="n"
+              class="d-flex child-flex"
+              cols="4"
+            >
+              <v-img
+                v-if="project.extraImages[n - 1]"
+                :src="project.extraImages[n - 1].fileString"
+                aspect-ratio="1"
+                class="grey lighten-2"
+              >
               </v-img>
             </v-col>
           </v-row>
+        </v-col>
+
+        <v-col v-if="!loading">
+          <h1>Código fuente</h1>
+          <div v-if="!loadingRepos">
+            <v-card v-if="repos.length > 0" class="mx-auto" tile>
+              <div v-for="(repo, index) in repos" :key="repo._id">
+                <repository-link :repo="repo"></repository-link>
+                <v-divider v-if="index + 1 != repos.length" inset></v-divider>
+              </div>
+            </v-card>
+            <v-card v-else>
+              <v-card-text
+                >No hay código fuente asociado a este proyecto</v-card-text
+              >
+            </v-card>
+          </div>
+          <div v-else>
+            <v-col>
+              <v-skeleton-loader
+                style="width: 100% !important"
+                type="heading"
+              ></v-skeleton-loader>
+            </v-col>
+            <v-col>
+              <v-skeleton-loader type="text"></v-skeleton-loader>
+            </v-col>
+          </div>
         </v-col>
 
         <v-col v-if="!loading">
@@ -65,14 +113,16 @@
           </div>
           <div v-else>
             <v-col>
-              <v-skeleton-loader style="width: 100% !important" type="heading"></v-skeleton-loader>
+              <v-skeleton-loader
+                style="width: 100% !important"
+                type="heading"
+              ></v-skeleton-loader>
             </v-col>
             <v-col>
               <v-skeleton-loader type="text"></v-skeleton-loader>
             </v-col>
           </div>
         </v-col>
-        <v-row> </v-row>
       </div>
     </div>
   </v-container>
@@ -90,8 +140,10 @@ import MarkdownIt from "markdown-it";
 import markdownitEmoji from "markdown-it-emoji";
 import CategoriesChips from "@/components/CategoriesChips.vue";
 import ResourceLinkComponent from "@/components/ResourceLink.vue";
+import RepositoryLink from "@/components/RepositoryLink.vue";
 import FileUtils from "@/utils/file.utils";
 import ResourceLink, { ResourceLinkList } from "@/models/resource-link.model";
+import Repository from "@/models/repository.model";
 
 Vue.use(VueViewer);
 Vue.use(VueDOMPurifyHTML);
@@ -101,7 +153,7 @@ export default Vue.extend({
   created() {
     document.title = "Detalles | Proyectos Aprendizaje + Servicio";
   },
-  components: { CategoriesChips, ResourceLinkComponent },
+  components: { CategoriesChips, ResourceLinkComponent, RepositoryLink },
   data() {
     return {
       default2,
@@ -109,6 +161,8 @@ export default Vue.extend({
       loading: true,
       links: [] as ResourceLink[],
       loadingLinks: true,
+      repos: [] as Repository[],
+      loadingRepos: true,
       error: false,
       errorMessage: "",
       items: [
@@ -165,17 +219,35 @@ export default Vue.extend({
       } finally {
         this.loading = false;
         this.getProjectLinks(id);
+        this.getRepositories(id);
       }
     },
 
     async getProjectLinks(id: string): Promise<void> {
       try {
-        const links: ResourceLinkList = await SeldonService.getProjectLinks(id, 1, 999);
+        const links: ResourceLinkList = await SeldonService.getProjectLinks(
+          id,
+          1,
+          999
+        );
         this.links = links.resourceLinks;
       } catch (error: any) {
         // handle error
       } finally {
         this.loadingLinks = false;
+      }
+    },
+
+    async getRepositories(id: string): Promise<void> {
+      try {
+        const repositories: Repository[] = await SeldonService.getRepositories(
+          id
+        );
+        this.repos = repositories;
+      } catch (error: any) {
+        // handle error
+      } finally {
+        this.loadingRepos = false;
       }
     },
 

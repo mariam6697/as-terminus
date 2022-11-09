@@ -1,11 +1,34 @@
 <template>
-
   <v-list-item>
     <v-list-item-avatar>
-      <v-icon class="blue" dark v-text="'mdi-clipboard-text'"></v-icon>
+      <v-icon
+        v-if="link.type === 'other'"
+        class="blue"
+        dark
+        v-text="'mdi-link'"
+      ></v-icon>
+      <v-icon
+        v-if="link.type === 'video'"
+        class="purple"
+        dark
+        v-text="'mdi-play'"
+      ></v-icon>
+      <v-icon
+        v-if="link.type === 'document'"
+        class="orange"
+        dark
+        v-text="'mdi-clipboard-text'"
+      ></v-icon>
     </v-list-item-avatar>
     <v-list-item-content>
-      <v-list-item-title>{{ link.title }}</v-list-item-title>
+      <v-list-item-title
+        ><a
+          style="font-weight: bold"
+          :href="sanitizeUrl(link.url)"
+          target="_blank"
+          >{{ link.title }}</a
+        ></v-list-item-title
+      >
       <v-list-item-subtitle>{{ link.description }}</v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
@@ -14,7 +37,6 @@
       </v-btn>
     </v-list-item-action>
   </v-list-item>
-
 </template>
 
 <script lang="ts">
@@ -24,6 +46,8 @@ import { sanitizeUrl } from "@braintree/sanitize-url";
 export default Vue.extend({
   name: "ResourceLink",
   props: ["link"],
-  data() { return { sanitizeUrl } },
+  data() {
+    return { sanitizeUrl };
+  },
 });
 </script>

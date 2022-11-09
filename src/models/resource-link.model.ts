@@ -8,6 +8,12 @@ export default interface ResourceLink {
   project?: string;
 }
 
+/** Type glossary
+ * video
+ * document
+ * other
+ **/
+
 export interface ResourceLinkList {
   page: number;
   limit: number;
