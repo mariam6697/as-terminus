@@ -8,13 +8,21 @@
         repo.label
       }}</v-list-item-title>
       <v-list-item-subtitle
-        ><a :href="sanitizeUrl(repo.url)" target="_blank">{{
-          repo.name
-        }}</a></v-list-item-subtitle
+        ><a
+          :href="sanitizeUrl(repo.url)"
+          target="_blank"
+          rel="noopener noreferrer"
+          >{{ repo.name }}</a
+        ></v-list-item-subtitle
       >
     </v-list-item-content>
     <v-list-item-action>
-      <v-btn :href="sanitizeUrl(repo.url)" target="_blank" icon>
+      <v-btn
+        :href="sanitizeUrl(repo.url)"
+        target="_blank"
+        rel="noopener noreferrer"
+        icon
+      >
         <v-icon color="grey lighten-1">mdi-open-in-new</v-icon>
       </v-btn>
     </v-list-item-action>

@@ -26,13 +26,19 @@
           style="font-weight: bold"
           :href="sanitizeUrl(link.url)"
           target="_blank"
+          rel="noopener noreferrer"
           >{{ link.title }}</a
         ></v-list-item-title
       >
       <v-list-item-subtitle>{{ link.description }}</v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
-      <v-btn :href="sanitizeUrl(link.url)" target="_blank" icon>
+      <v-btn
+        :href="sanitizeUrl(link.url)"
+        target="_blank"
+        rel="noopener noreferrer"
+        icon
+      >
         <v-icon color="grey lighten-1">mdi-open-in-new</v-icon>
       </v-btn>
     </v-list-item-action>
