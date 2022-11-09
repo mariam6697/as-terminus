@@ -1,4 +1,5 @@
 import Project from "@/models/project.model";
+import Repository from "@/models/repository.model";
 import { ResourceLinkList } from "@/models/resource-link.model";
 import axios from "axios";
 
@@ -40,5 +41,11 @@ export default class SeldonService {
       totalItems: response.data.data.totalItems,
       resourceLinks: response.data.data.resourceLinks,
     };
+  }
+
+  static async getRepositories(id: string): Promise<Repository[]> {
+    const url = `${seldonUrl}/core/repositories/project/${id}`;
+    const response: any = await axios.get(url);
+    return response.data.data;
   }
 }
