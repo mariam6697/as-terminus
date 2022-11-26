@@ -21,6 +21,11 @@ const routes: Array<RouteConfig> = [
     component: () => import("../views/ProjectsDetailsView.vue"),
   },
   {
+    path: "/categoria/:catLabel",
+    name: "categories",
+    component: () => import("../views/CategoryView.vue"),
+  },
+  {
     path: "*",
     name: "not found",
     component: () => import("../views/NotFound.vue"),
@@ -31,6 +36,19 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior(to) {
+    if (to.hash) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            behavior: "smooth",
+            selector: to.hash,
+            offset: { x: 0, y: 100 },
+          });
+        }, 1500);
+      });
+    }
+  },
 });
 
 export default router;
