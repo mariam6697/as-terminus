@@ -1,6 +1,6 @@
 <template>
   <div class="ma-2 pa-2">
-    <h1>Proyectos</h1>
+    <h1 id="proyectos">Proyectos</h1>
     <div class="project-list-container" v-if="loading">
       <div class="project-card-container">
         <v-sheet
@@ -41,7 +41,7 @@ import FileUtils from "@/utils/file.utils";
 import ProjectCard from "@/components/ProjectCard.vue";
 
 export default Vue.extend({
-  name: "HighlightsView",
+  name: "ProjectsList",
   components: { ProjectCard },
   data() {
     return {

@@ -25,7 +25,11 @@
       <div v-if="!loading">
         <v-col>
           <h1 class="project-name">{{ project.name }}</h1>
-          <categories-chips :categories="project.categories"></categories-chips>
+          <categories-chips
+            :categories="project.categories"
+            :year="project.year"
+            :semester="project.semester"
+          ></categories-chips>
         </v-col>
         <v-row class="main-info">
           <v-col cols="6">

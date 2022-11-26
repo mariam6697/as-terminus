@@ -6,14 +6,29 @@ import axios from "axios";
 const seldonUrl = process.env.VUE_APP_SELDON_URL;
 
 export default class SeldonService {
+  static async getCategory(catLabel: string): Promise<any> {
+    const url = `${seldonUrl}/core/categories/label/${catLabel}`;
+    const response: any = await axios.get(url);
+    return response.data.data;
+  }
+
   static async getProjects(
     page: number,
     limit: number,
-    query?: { highlighted: boolean }
+    query?: { highlighted?: boolean; categories?: string[] }
   ): Promise<any> {
     let url = `${seldonUrl}/core/projects?page=${page}&limit=${limit}`;
-    if (query && query.highlighted) {
-      url += `&highlighted=${query.highlighted}`;
+    if (query) {
+      if (query.highlighted) {
+        url += `&highlighted=${query.highlighted}`;
+      }
+      if (query.categories && query.categories.length > 0) {
+        url += `&cat=${
+          query.categories.length == 1
+            ? query.categories[0]
+            : query.categories.join(",")
+        }`;
+      }
     }
     const response: any = await axios.get(url);
     return response.data.data;
