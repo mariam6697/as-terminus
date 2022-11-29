@@ -118,8 +118,8 @@ export default Vue.extend({
     display: flex;
     flex-flow: row wrap;
     width: 100%;
-    margin-left: -10px;
-    margin-right: -10px;
+    // margin-left: -10px;
+    // margin-right: -10px;
     justify-content: space-around;
   }
 }
