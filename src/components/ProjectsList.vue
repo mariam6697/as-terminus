@@ -1,6 +1,20 @@
 <template>
   <div class="ma-2 pa-2">
     <h1 id="proyectos">Proyectos</h1>
+    <v-row style="flex: none">
+      <v-row style="justify-content: end">
+        <v-subheader> Elementos por página </v-subheader>
+        <div style="width: 100px">
+          <v-select
+            :items="limitOptions"
+            label="Elementos por página"
+            solo
+            v-model="limit"
+            hide-details
+          ></v-select>
+        </div>
+      </v-row>
+    </v-row>
     <div class="project-list-container" v-if="loading">
       <div class="project-card-container">
         <v-sheet
@@ -28,6 +42,12 @@
         ></project-card>
       </v-flex>
     </div>
+    <v-pagination
+      v-model="page"
+      :length="totalPages"
+      :total-visible="4"
+      :disabled="loading"
+    ></v-pagination>
   </div>
 </template>
 
@@ -48,8 +68,10 @@ export default Vue.extend({
       projects: [] as Project[],
       loading: true,
       page: 1,
-      limit: 10,
+      limit: 6,
       default1,
+      limitOptions: [3, 6, 9, 12],
+      totalPages: 0,
     };
   },
   mounted() {
@@ -58,6 +80,14 @@ export default Vue.extend({
   computed: {
     isDark(): boolean {
       return this.$vuetify.theme.dark;
+    },
+  },
+  watch: {
+    page() {
+      this.getProjects();
+    },
+    limit() {
+      this.getProjects();
     },
   },
   methods: {
@@ -74,6 +104,7 @@ export default Vue.extend({
         }
         return project;
       });
+      this.totalPages = Math.ceil(res.totalItems / this.limit);
       this.loading = false;
     },
   },
@@ -89,6 +120,7 @@ export default Vue.extend({
     width: 100%;
     margin-left: -10px;
     margin-right: -10px;
+    justify-content: space-around;
   }
 }
 </style>

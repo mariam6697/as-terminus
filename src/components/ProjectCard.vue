@@ -1,6 +1,9 @@
 <template>
   <v-card class="mx-auto project-card">
-    <v-img :src="project.mainImage ? project.mainImage.fileString : default2.default" height="200px"></v-img>
+    <v-img
+      :src="project.mainImage ? project.mainImage.fileString : default2.default"
+      height="200px"
+    ></v-img>
 
     <v-card-title> {{ project.name }} </v-card-title>
 
@@ -49,7 +52,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .project-card {
   margin: 10px !important;
-  max-width: 340px;
+  max-width: 361px;
   height: 100%;
   display: inline-block;
 }
