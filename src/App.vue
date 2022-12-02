@@ -257,4 +257,8 @@ a {
     width: 340px !important;
   }
 }
+
+.v-list-item__title {
+  font-size: 1em !important;
+}
 </style>

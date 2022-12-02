@@ -15,6 +15,7 @@
         :src="
           project.mainImage ? project.mainImage.fileString : default1.default
         "
+        :to="`/proyectos/${project.id}`"
         ><div class="as-carousel-container">
           <div class="as-carousel">
             <div class="as-carousel-title">{{ project.name }}</div>
