@@ -184,15 +184,6 @@ export default Vue.extend({
       this.getProjects();
     },
     selectedCats() {
-      let catsArray =
-        this.selectedCats.length > 1
-          ? this.selectedCats.join(",")
-          : this.selectedCats.length == 0
-          ? null
-          : this.selectedCats[0];
-      if (catsArray) {
-        this.catsArray = catsArray;
-      }
       this.getProjects();
     },
   },
