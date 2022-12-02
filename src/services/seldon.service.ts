@@ -6,6 +6,12 @@ import axios from "axios";
 const seldonUrl = process.env.VUE_APP_SELDON_URL;
 
 export default class SeldonService {
+  static async getCategories(): Promise<any> {
+    const url = `${seldonUrl}/core/categories`;
+    const response: any = await axios.get(url);
+    return response.data.data;
+  }
+
   static async getCategory(catLabel: string): Promise<any> {
     const url = `${seldonUrl}/core/categories/label/${catLabel}`;
     const response: any = await axios.get(url);
@@ -15,7 +21,12 @@ export default class SeldonService {
   static async getProjects(
     page: number,
     limit: number,
-    query?: { highlighted?: boolean; categories?: string[] }
+    query?: {
+      highlighted?: boolean;
+      categories?: string[];
+      semester?: number;
+      year?: number;
+    }
   ): Promise<any> {
     let url = `${seldonUrl}/core/projects?page=${page}&limit=${limit}`;
     if (query) {
@@ -28,6 +39,12 @@ export default class SeldonService {
             ? query.categories[0]
             : query.categories.join(",")
         }`;
+      }
+      if (query.semester) {
+        url += `&semester=${query.semester}`;
+      }
+      if (query.year) {
+        url += `&year=${query.year}`;
       }
     }
     const response: any = await axios.get(url);
